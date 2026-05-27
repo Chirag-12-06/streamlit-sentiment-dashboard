@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.express as px
 import ast
 from wordcloud import WordCloud, STOPWORDS
@@ -12,16 +11,27 @@ st.sidebar.title("Sentiment Analysis of Tweets about US Airlines")
 st.markdown("This application is a Streamlit dashboard that analyzes the sentiment of tweets about US airlines.🐦")
 st.sidebar.markdown("This application is a Streamlit dashboard that analyzes the sentiment of tweets about US airlines.🐦")
 
-path ="Tweets.csv"
+PATH ="Tweets.csv"
 
 @st.cache_data
 def load_data():
-    data=pd.read_csv(path)
-    data["tweet_created"]=pd.to_datetime(data["tweet_created"])
-    return data
+    data_temp=pd.read_csv(PATH)
+    data_temp["tweet_created"]=pd.to_datetime(data_temp["tweet_created"])
+    return data_temp
 
 data=load_data()
 
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("Total Tweets", len(data))
+col2.metric(
+    "Positive",
+    len(data[data.airline_sentiment == "positive"]))
+col3.metric(
+    "Neutral",
+    len(data[data.airline_sentiment == "neutral"]))
+col4.metric(
+    "Negative",
+    len(data[data.airline_sentiment == "negative"]))
 
 st.sidebar.subheader("Show a Random Tweet")
 random_tweet=st.sidebar.radio("Sentiment", ("Positive","Neutral","Negative"))
@@ -72,9 +82,9 @@ word_sentiment=st.sidebar.radio("Display word cloud for which sentiment?", ("Pos
 if not st.sidebar.checkbox("Close", True, key="3"):
     st.header("Wordcloud for %s sentiment" % (word_sentiment))
     df=data[data.airline_sentiment == word_sentiment.lower()]
-    words=" ".join(df["text"])
-    processed_words=' '.join([word for word in words.split() if "http" not in word and not word.startswith("@") and word != "RT"])
-    wordcloud=WordCloud(stopwords=STOPWORDS, background_color="white", height=400, width=800).generate(processed_words)
+    WORDS=" ".join(df["text"])
+    PROCESSED_WORDS=' '.join([word for word in WORDS.split() if "http" not in word and not word.startswith("@") and word != "RT"])
+    wordcloud=WordCloud(stopwords=STOPWORDS, background_color="white", height=400, width=800).generate(PROCESSED_WORDS)
     fig, ax = plt.subplots(figsize=(10,5))
     ax.imshow(wordcloud, interpolation='bilinear')
     ax.axis("off")
