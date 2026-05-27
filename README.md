@@ -2,6 +2,10 @@
 
 Interactive Streamlit dashboard that visualizes sentiment analysis of tweets about US airlines using the provided Tweets.csv dataset.
 
+**Deployed App**
+
+- Live demo: [Streamlit Sentiment Dashboard](https://chirag-12-06-streamlit-sentiment-dashboard-app-q3rcub.streamlit.app/)
+
 **Features**
 
 - **Overview metrics:** Total tweets and counts by sentiment (positive, neutral, negative).
@@ -52,4 +56,3 @@ Open the URL shown by Streamlit (usually http://localhost:8501).
 **Troubleshooting**
 
 - If the word cloud or plotting fails, confirm `wordcloud` and `matplotlib` are installed and restart the Streamlit server.
-
